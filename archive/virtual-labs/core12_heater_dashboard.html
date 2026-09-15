@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CORE12 Thermal Plant & Heater Control Dashboard</title>
+<style>
+:root{
+  --bg:#07110f;
+  --panel:#0c1816;
+  --panel2:#10211d;
+  --line:#1d3a34;
+  --text:#edf8f4;
+  --muted:#9cb8af;
+  --accent:#63e6be;
+  --accent2:#74c0fc;
+  --warn:#ffd43b;
+  --hot:#ff8787;
+  --violet:#b197fc;
+  --grid:rgba(163,230,208,.12);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+body{min-height:100vh}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{max-width:1720px;margin:0 auto;padding:16px}
+.header{
+  display:flex;gap:16px;align-items:flex-start;justify-content:space-between;
+  padding:18px 20px;border:1px solid var(--line);background:linear-gradient(135deg,#0b1d19,#0d1716);
+  border-radius:18px;
+}
+.header h1{margin:0 0 6px;font-size:clamp(22px,3vw,34px);letter-spacing:.01em}
+.header p{margin:0;color:var(--muted);max-width:900px;line-height:1.45}
+.badge{display:inline-flex;align-items:center;gap:7px;border:1px solid #2a5148;background:#102822;padding:7px 10px;border-radius:999px;color:#bdf7e4;font-size:12px;white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+button,.fileLabel{
+  border:1px solid #2b5048;background:#10241f;color:var(--text);padding:9px 12px;border-radius:10px;
+  transition:.15s ease;min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+}
+button:hover,.fileLabel:hover{background:#17332c;border-color:#3e7568}
+button.primary{background:#173b31;border-color:#4cb899;color:#e8fff8}
+button.danger{background:#32191b;border-color:#704046}
+input[type=file]{display:none}
+.layout{display:grid;grid-template-columns:320px minmax(0,1fr) 310px;gap:12px;align-items:start}
+.panel{border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:14px;min-width:0}
+.panel h2{font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:#c8e6dd;margin:0 0 12px}
+.section{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+.section:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.control{margin:0 0 13px}
+.controlHeader{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:5px}
+.control label{font-size:13px;color:#d7e9e3}
+.value{font-variant-numeric:tabular-nums;color:var(--accent);font-size:12px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+select,input[type=number]{
+  width:100%;background:#091612;border:1px solid #2a4942;color:var(--text);border-radius:9px;padding:9px 10px;min-height:40px
+}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(125px,1fr));gap:8px;margin-bottom:10px}
+.kpi{background:var(--panel2);border:1px solid var(--line);border-radius:13px;padding:11px;min-width:0}
+.kpi .label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.kpi .num{font-size:21px;margin-top:3px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kpi .sub{font-size:11px;color:var(--muted);margin-top:2px}
+.chartCard{background:#081412;border:1px solid var(--line);border-radius:14px;padding:10px;margin-top:10px;overflow:hidden}
+.chartTitle{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 2px 7px}
+.chartTitle strong{font-size:13px}
+.chartTitle span{font-size:11px;color:var(--muted)}
+canvas{width:100%;height:250px;display:block;border-radius:9px;background:#07100e}
+canvas.small{height:170px}
+.legend{display:flex;flex-wrap:wrap;gap:10px 16px;color:var(--muted);font-size:11px;margin:7px 2px 0}
+.swatch{width:10px;height:3px;border-radius:2px;display:inline-block;margin-right:5px;vertical-align:middle}
+.eq{
+  background:#081412;border:1px solid var(--line);border-radius:12px;padding:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  line-height:1.7;color:#d8f7ed;font-size:12px;overflow-wrap:anywhere
+}
+.readout{display:grid;gap:8px}
+.row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(29,58,52,.65);padding-bottom:6px}
+.row:last-child{border-bottom:0}
+.row span:first-child{color:var(--muted);font-size:12px}
+.row span:last-child{font-size:12px;font-variant-numeric:tabular-nums;text-align:right}
+.note{font-size:12px;line-height:1.45;color:var(--muted)}
+.ok{color:var(--accent)!important}.warn{color:var(--warn)!important}.hot{color:var(--hot)!important}
+.tableWrap{overflow:auto;max-height:265px;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:11px;white-space:nowrap}
+th,td{padding:6px 8px;border-bottom:1px solid #18322c;text-align:right;font-variant-numeric:tabular-nums}
+th{position:sticky;top:0;background:#10211d;color:#cfe8e0}
+th:first-child,td:first-child{text-align:left}
+.footer{margin:12px 0 0;padding:12px 4px;color:var(--muted);font-size:11px;line-height:1.5}
+input[type=checkbox]{accent-color:var(--accent)}
+.checkrow{display:flex;align-items:center;gap:8px;font-size:12px;color:#d8ebe5}
+@media(max-width:1250px){
+  .layout{grid-template-columns:300px minmax(0,1fr)}
+  .side{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .side .panel{height:100%}
+  .kpis{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:780px){
+  .app{padding:8px}
+  .header{border-radius:12px;padding:14px;flex-direction:column}
+  .layout{grid-template-columns:1fr}
+  .side{display:block}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  canvas{height:220px}
+}
+@media(max-width:430px){
+  .kpis{grid-template-columns:1fr 1fr}
+  .grid2{grid-template-columns:1fr}
+  .toolbar>*{flex:1 1 45%}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div>
+      <h1>Thermal Plant & Heater Control Dashboard</h1>
+      <p>Interactive lumped-parameter heater model with thermostat/PID control, thermal flux accounting, disturbance testing, measurement overlay, residual analysis, and complete data export.</p>
+    </div>
+    <div class="badge"><span class="dot"></span><span id="statusBadge">Model ready</span></div>
+  </header>
+
+  <div class="toolbar">
+    <button class="primary" id="runBtn">Recalculate</button>
+    <button id="resetBtn">Reset defaults</button>
+    <button id="csvBtn">Export CSV</button>
+    <button id="jsonBtn">Export JSON</button>
+    <button id="configBtn">Export config</button>
+    <button id="pngBtn">Export charts PNG</button>
+    <label class="fileLabel" for="measureFile">Import measured CSV</label>
+    <input id="measureFile" type="file" accept=".csv,text/csv">
+    <button class="danger" id="clearMeasuredBtn">Clear measured</button>
+  </div>
+
+  <div class="layout">
+    <aside class="panel controls">
+      <h2>Plant & Controller</h2>
+
+      <div class="section">
+        <div class="control">
+          <div class="controlHeader"><label for="controller">Control mode</label></div>
+          <select id="controller">
+            <option value="thermostat">Thermostat / bang-bang</option>
+            <option value="pid">PID / proportional power</option>
+            <option value="open">Open-loop heater</option>
+          </select>
+        </div>
+        <div class="control"><div class="controlHeader"><label for="power">Maximum heater power</label><span class="value" id="powerV"></span></div><input id="power" type="range" min="50" max="5000" step="50"></div>
+        <div class="control"><div class="controlHeader"><label for="efficiency">Heater efficiency</label><span class="value" id="efficiencyV"></span></div><input id="efficiency" type="range" min="0.2" max="1" step="0.01"></div>
+        <div class="control"><div class="controlHeader"><label for="ambient">Ambient temperature</label><span class="value" id="ambientV"></span></div><input id="ambient" type="range" min="-20" max="45" step="1"></div>
+        <div class="control"><div class="controlHeader"><label for="rth">Thermal resistance Rth</label><span class="value" id="rthV"></span></div><input id="rth" type="range" min="0.005" max="0.20" step="0.001"></div>
+        <div class="control"><div class="controlHeader"><label for="cth">Thermal capacitance Cth</label><span class="value" id="cthV"></span></div><input id="cth" type="range" min="1000" max="150000" step="1000"></div>
+        <div class="control"><div class="controlHeader"><label for="sensorTau">Sensor time constant</label><span class="value" id="sensorTauV"></span></div><input id="sensorTau" type="range" min="0" max="180" step="1"></div>
+        <div class="control"><div class="controlHeader"><label for="initial">Initial temperature</label><span class="value" id="initialV"></span></div><input id="initial" type="range" min="-20" max="100" step="1"></div>
+      </div>
+
+      <div class="section">
+        <div class="control"><div class="controlHeader"><label for="setpoint">Setpoint</label><span class="value" id="setpointV"></span></div><input id="setpoint" type="range" min="0" max="100" step="1"></div>
+        <div class="control thermostatOnly"><div class="controlHeader"><label for="hysteresis">Thermostat hysteresis</label><span class="value" id="hysteresisV"></span></div><input id="hysteresis" type="range" min="0.2" max="15" step="0.2"></div>
+        <div class="control openOnly"><div class="controlHeader"><label for="openDuty">Open-loop power</label><span class="value" id="openDutyV"></span></div><input id="openDuty" type="range" min="0" max="1" step="0.01"></div>
+      </div>
+
+      <div class="section pidOnly">
+        <div class="grid2">
+          <div class="control"><label for="kp">Kp</label><input id="kp" type="number" min="0" step="0.01"></div>
+          <div class="control"><label for="ki">Ki</label><input id="ki" type="number" min="0" step="0.0001"></div>
+          <div class="control"><label for="kd">Kd</label><input id="kd" type="number" min="0" step="0.1"></div>
+          <div class="control"><label for="iClamp">Integral clamp</label><input id="iClamp" type="number" min="0" step="1"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="control"><div class="controlHeader"><label for="duration">Simulation duration</label><span class="value" id="durationV"></span></div><input id="duration" type="range" min="60" max="7200" step="60"></div>
+        <div class="control"><div class="controlHeader"><label for="dt">Time step</label><span class="value" id="dtV"></span></div><input id="dt" type="range" min="0.1" max="5" step="0.1"></div>
+      </div>
+
+      <div class="section">
+        <div class="checkrow"><input id="disturbanceOn" type="checkbox"><label for="disturbanceOn">Enable ambient disturbance step</label></div>
+        <div id="disturbanceControls" style="margin-top:10px">
+          <div class="grid2">
+            <div class="control"><label for="disturbanceTime">Step time (s)</label><input id="disturbanceTime" type="number" min="0" step="1"></div>
+            <div class="control"><label for="disturbanceDelta">Δ ambient (°C)</label><input id="disturbanceDelta" type="number" step="1"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main>
+      <section class="kpis">
+        <div class="kpi"><div class="label">Final temperature</div><div class="num" id="kFinal">—</div><div class="sub">plant</div></div>
+        <div class="kpi"><div class="label">Peak temperature</div><div class="num" id="kPeak">—</div><div class="sub">overshoot shown below</div></div>
+        <div class="kpi"><div class="label">Duty / avg output</div><div class="num" id="kDuty">—</div><div class="sub">controller demand</div></div>
+        <div class="kpi"><div class="label">Energy used</div><div class="num" id="kEnergy">—</div><div class="sub">electrical input</div></div>
+        <div class="kpi"><div class="label">Thermal τ = R·C</div><div class="num" id="kTau">—</div><div class="sub">plant time constant</div></div>
+        <div class="kpi"><div class="label">Settling estimate</div><div class="num" id="kSettle">—</div><div class="sub">±1 °C band</div></div>
+      </section>
+
+      <section class="chartCard"><div class="chartTitle"><strong>Temperature response</strong><span>plant, sensor, setpoint, optional measured data</span></div><canvas id="tempChart" width="1200" height="360"></canvas><div class="legend"><span><i class="swatch" style="background:#63e6be"></i>Plant T</span><span><i class="swatch" style="background:#74c0fc"></i>Sensor T</span><span><i class="swatch" style="background:#ffd43b"></i>Setpoint</span><span><i class="swatch" style="background:#ff8787"></i>Measured</span></div></section>
+      <section class="chartCard"><div class="chartTitle"><strong>Energy flux accounting</strong><span>heater input, thermal loss, net storage rate</span></div><canvas id="fluxChart" width="1200" height="320"></canvas><div class="legend"><span><i class="swatch" style="background:#63e6be"></i>Heater thermal flux</span><span><i class="swatch" style="background:#ff8787"></i>Heat loss</span><span><i class="swatch" style="background:#b197fc"></i>Net flux into storage</span></div></section>
+      <section class="chartCard"><div class="chartTitle"><strong>Controller output & error</strong><span>command fraction and setpoint error</span></div><canvas id="controlChart" class="small" width="1200" height="250"></canvas></section>
+      <section class="chartCard"><div class="chartTitle"><strong>Model residual</strong><span id="residualTitle">Import measured CSV to compare against the digital model</span></div><canvas id="residualChart" class="small" width="1200" height="250"></canvas></section>
+      <section class="panel" style="margin-top:10px"><h2>Results sample</h2><div class="tableWrap"><table><thead><tr><th>t (s)</th><th>T plant</th><th>T sensor</th><th>ambient</th><th>command</th><th>P heater</th><th>Q loss</th><th>net flux</th><th>error</th></tr></thead><tbody id="dataBody"></tbody></table></div></section>
+    </main>
+
+    <div class="side">
+      <section class="panel"><h2>Model Structure</h2><div class="eq">Cth · dT/dt = Qin − Qloss<br>Qin = η · u · Pmax<br>Qloss = (T − Tamb)/Rth<br>τ = Rth · Cth</div><p class="note">The thermal plant is an accountancy model: temperature rises only when net energy flux into storage is positive.</p></section>
+      <section class="panel"><h2>Derived quantities</h2><div class="readout"><div class="row"><span>Full-power equilibrium</span><span id="rEq">—</span></div><div class="row"><span>Initial heat loss</span><span id="rInitLoss">—</span></div><div class="row"><span>Peak overshoot</span><span id="rOvershoot">—</span></div><div class="row"><span>Mean |error|</span><span id="rMae">—</span></div><div class="row"><span>Thermal energy delivered</span><span id="rThermalEnergy">—</span></div><div class="row"><span>Measured RMSE</span><span id="rRmse">—</span></div><div class="row"><span>Measured samples</span><span id="rMeasuredN">0</span></div></div></section>
+      <section class="panel"><h2>Export & measurement format</h2><p class="note">CSV and JSON exports include every simulation sample: time, plant temperature, sensor temperature, ambient temperature, setpoint, controller command, electrical heater power, thermal heater flux, heat loss, net flux, temperature rate, and control error.</p><p class="note">Measured CSV may contain headers such as <b>time_s,temp_c</b> or <b>time_min,temp_c</b>. Imported measurements are overlaid on the temperature plot and interpolated to calculate residuals and RMSE.</p></section>
+    </div>
+  </div>
+
+  <div class="footer">Self-contained browser model. No server or external library is required. Numerical integration uses a bounded explicit time step and recomputes the complete result set whenever parameters change.</div>
+</div>
+
+<script>
+(() => {
+  'use strict';
+  const defaults = {controller:'thermostat',power:1200,efficiency:0.95,ambient:20,rth:0.05,cth:30000,sensorTau:8,initial:20,setpoint:60,hysteresis:2,openDuty:0.65,kp:0.08,ki:0.0015,kd:0.5,iClamp:500,duration:1800,dt:1,disturbanceOn:false,disturbanceTime:900,disturbanceDelta:-8};
+  const $ = id => document.getElementById(id);
+  let measured = [], results = [], residualSeries = [], updateTimer = null;
+  const ranged = [
+    ['power','powerV', v => `${v.toFixed(0)} W`],['efficiency','efficiencyV', v => `${(v*100).toFixed(0)} %`],['ambient','ambientV', v => `${v.toFixed(0)} °C`],['rth','rthV', v => `${v.toFixed(3)} °C/W`],['cth','cthV', v => `${v.toFixed(0)} J/°C`],['sensorTau','sensorTauV', v => `${v.toFixed(0)} s`],['initial','initialV', v => `${v.toFixed(0)} °C`],['setpoint','setpointV', v => `${v.toFixed(0)} °C`],['hysteresis','hysteresisV', v => `${v.toFixed(1)} °C`],['openDuty','openDutyV', v => `${(v*100).toFixed(0)} %`],['duration','durationV', v => `${(v/60).toFixed(0)} min`],['dt','dtV', v => `${v.toFixed(1)} s`]
+  ];
+  function applyDefaults(){for(const [k,v] of Object.entries(defaults)){const el=$(k);if(!el)continue;if(el.type==='checkbox')el.checked=!!v;else el.value=v}updateControlVisibility();refreshLabels()}
+  function params(){const p={controller:$('controller').value,power:+$('power').value,efficiency:+$('efficiency').value,ambient:+$('ambient').value,rth:Math.max(.000001,+$('rth').value),cth:Math.max(1,+$('cth').value),sensorTau:Math.max(0,+$('sensorTau').value),initial:+$('initial').value,setpoint:+$('setpoint').value,hysteresis:Math.max(.01,+$('hysteresis').value),openDuty:clamp(+$('openDuty').value,0,1),kp:Math.max(0,+$('kp').value||0),ki:Math.max(0,+$('ki').value||0),kd:Math.max(0,+$('kd').value||0),iClamp:Math.max(0,+$('iClamp').value||0),duration:Math.max(1,+$('duration').value),dt:clamp(+$('dt').value,.02,10),disturbanceOn:$('disturbanceOn').checked,disturbanceTime:Math.max(0,+$('disturbanceTime').value||0),disturbanceDelta:+$('disturbanceDelta').value||0};if(p.duration/p.dt>30000)p.dt=p.duration/30000;return p}
+  function clamp(x,a,b){return Math.max(a,Math.min(b,x))}
+  function simulate(){const p=params(),n=Math.min(30001,Math.floor(p.duration/p.dt)+1),out=new Array(n);let T=p.initial,Ts=p.initial,heaterOn=T<p.setpoint,integ=0,prevErr=p.setpoint-Ts;for(let i=0;i<n;i++){const t=i*p.dt,amb=p.ambient+(p.disturbanceOn&&t>=p.disturbanceTime?p.disturbanceDelta:0),err=p.setpoint-Ts;let u=0;if(p.controller==='thermostat'){const lo=p.setpoint-p.hysteresis/2,hi=p.setpoint+p.hysteresis/2;if(heaterOn&&Ts>=hi)heaterOn=false;else if(!heaterOn&&Ts<=lo)heaterOn=true;u=heaterOn?1:0}else if(p.controller==='pid'){integ=clamp(integ+err*p.dt,-p.iClamp,p.iClamp);const deriv=i===0?0:(err-prevErr)/p.dt;u=clamp(p.kp*err+p.ki*integ+p.kd*deriv,0,1)}else u=p.openDuty;const electricalPower=u*p.power,qin=electricalPower*p.efficiency,qloss=(T-amb)/p.rth,net=qin-qloss,dTdt=net/p.cth;out[i]={time_s:t,time_min:t/60,plant_temp_c:T,sensor_temp_c:Ts,ambient_temp_c:amb,setpoint_c:p.setpoint,command_fraction:u,electrical_heater_power_w:electricalPower,thermal_heater_flux_w:qin,heat_loss_w:qloss,net_flux_w:net,dTdt_c_per_s:dTdt,control_error_c:err};T+=dTdt*p.dt;if(p.sensorTau<=0)Ts=T;else Ts+=((T-Ts)/p.sensorTau)*p.dt;prevErr=err}results=out;computeResiduals();renderAll()}
+  function refreshLabels(){for(const [id,vid,fmt] of ranged){const el=$(id),v=$(vid);if(el&&v)v.textContent=fmt(+el.value)}}
+  function updateControlVisibility(){const mode=$('controller').value;document.querySelectorAll('.pidOnly').forEach(x=>x.style.display=mode==='pid'?'block':'none');document.querySelectorAll('.thermostatOnly').forEach(x=>x.style.display=mode==='thermostat'?'block':'none');document.querySelectorAll('.openOnly').forEach(x=>x.style.display=mode==='open'?'block':'none');$('disturbanceControls').style.opacity=$('disturbanceOn').checked?'1':'.45'}
+  function schedule(){refreshLabels();updateControlVisibility();clearTimeout(updateTimer);updateTimer=setTimeout(simulate,70)}
+  function lineCanvas(canvasId,series,options={}){const c=$(canvasId),ctx=c.getContext('2d'),dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1)),cssW=Math.max(320,c.clientWidth||900),cssH=parseFloat(getComputedStyle(c).height)||250;if(c.width!==Math.round(cssW*dpr)||c.height!==Math.round(cssH*dpr)){c.width=Math.round(cssW*dpr);c.height=Math.round(cssH*dpr)}ctx.setTransform(dpr,0,0,dpr,0,0);const W=cssW,H=cssH;ctx.clearRect(0,0,W,H);ctx.fillStyle='#07100e';ctx.fillRect(0,0,W,H);const pad={l:54,r:20,t:14,b:34},pw=W-pad.l-pad.r,ph=H-pad.t-pad.b,xs=series.flatMap(s=>s.data.map(d=>d[0])).filter(Number.isFinite),ys=series.flatMap(s=>s.data.map(d=>d[1])).filter(Number.isFinite);if(!xs.length||!ys.length)return;let xmin=Math.min(...xs),xmax=Math.max(...xs),ymin=Math.min(...ys),ymax=Math.max(...ys);if(options.yMin!=null)ymin=options.yMin;if(options.yMax!=null)ymax=options.yMax;if(Math.abs(ymax-ymin)<1e-9){ymin-=1;ymax+=1}const ypad=(ymax-ymin)*.08;if(options.yMin==null)ymin-=ypad;if(options.yMax==null)ymax+=ypad;const X=x=>pad.l+(x-xmin)/(xmax-xmin||1)*pw,Y=y=>pad.t+(ymax-y)/(ymax-ymin||1)*ph;ctx.strokeStyle='rgba(163,230,208,.12)';ctx.lineWidth=1;ctx.fillStyle='#789c91';ctx.font='11px system-ui';ctx.textBaseline='middle';for(let i=0;i<=5;i++){const yy=pad.t+ph*i/5;ctx.beginPath();ctx.moveTo(pad.l,yy);ctx.lineTo(W-pad.r,yy);ctx.stroke();const val=ymax-(ymax-ymin)*i/5;ctx.textAlign='right';ctx.fillText(formatAxis(val),pad.l-7,yy)}for(let i=0;i<=6;i++){const xx=pad.l+pw*i/6;ctx.beginPath();ctx.moveTo(xx,pad.t);ctx.lineTo(xx,H-pad.b);ctx.stroke();const val=xmin+(xmax-xmin)*i/6;ctx.textAlign='center';ctx.textBaseline='top';ctx.fillText(formatAxis(val),xx,H-pad.b+7)}ctx.textAlign='left';ctx.textBaseline='alphabetic';for(const s of series){if(!s.data.length)continue;ctx.strokeStyle=s.color;ctx.lineWidth=s.width||2;ctx.setLineDash(s.dash||[]);ctx.beginPath();let started=false;const stride=Math.max(1,Math.floor(s.data.length/5000));for(let i=0;i<s.data.length;i+=stride){const d=s.data[i];if(!Number.isFinite(d[0])||!Number.isFinite(d[1]))continue;const xx=X(d[0]),yy=Y(d[1]);if(!started){ctx.moveTo(xx,yy);started=true}else ctx.lineTo(xx,yy)}ctx.stroke();ctx.setLineDash([]);if(s.points){ctx.fillStyle=s.color;const pstride=Math.max(1,Math.floor(s.data.length/250));for(let i=0;i<s.data.length;i+=pstride){const d=s.data[i];ctx.beginPath();ctx.arc(X(d[0]),Y(d[1]),2.3,0,Math.PI*2);ctx.fill()}}}if(options.yLabel){ctx.save();ctx.translate(14,pad.t+ph/2);ctx.rotate(-Math.PI/2);ctx.fillStyle='#9cb8af';ctx.font='11px system-ui';ctx.textAlign='center';ctx.fillText(options.yLabel,0,0);ctx.restore()}if(options.xLabel){ctx.fillStyle='#9cb8af';ctx.font='11px system-ui';ctx.textAlign='center';ctx.fillText(options.xLabel,pad.l+pw/2,H-4)}}
+  function formatAxis(v){const a=Math.abs(v);if(a>=1000)return v.toFixed(0);if(a>=100)return v.toFixed(0);if(a>=10)return v.toFixed(1);return v.toFixed(2)}
+  function computeResiduals(){residualSeries=[];if(!measured.length||!results.length)return;const sim=results;let j=0;for(const m of measured){while(j<sim.length-2&&sim[j+1].time_s<m.time_s)j++;const a=sim[j],b=sim[Math.min(j+1,sim.length-1)];if(m.time_s<a.time_s||m.time_s>b.time_s)continue;const f=(m.time_s-a.time_s)/Math.max(1e-12,b.time_s-a.time_s),model=a.plant_temp_c+f*(b.plant_temp_c-a.plant_temp_c);residualSeries.push({time_s:m.time_s,measured_temp_c:m.temp_c,model_temp_c:model,residual_c:m.temp_c-model})}}
+  function settlingTime(setpoint,tol=1){if(!results.length)return null;for(let i=0;i<results.length;i++){let ok=true;for(let j=i;j<results.length;j++){if(Math.abs(results[j].plant_temp_c-setpoint)>tol){ok=false;break}}if(ok)return results[i].time_s}return null}
+  function renderAll(){const p=params(),r=results;if(!r.length)return;const last=r[r.length-1],peak=Math.max(...r.map(x=>x.plant_temp_c)),duty=r.reduce((a,x)=>a+x.command_fraction,0)/r.length,electricalJ=r.reduce((a,x)=>a+x.electrical_heater_power_w*p.dt,0),thermalJ=r.reduce((a,x)=>a+x.thermal_heater_flux_w*p.dt,0),mae=r.reduce((a,x)=>a+Math.abs(x.control_error_c),0)/r.length,st=settlingTime(p.setpoint,1),eq=p.ambient+p.power*p.efficiency*p.rth,overshoot=peak-p.setpoint,rmse=residualSeries.length?Math.sqrt(residualSeries.reduce((a,x)=>a+x.residual_c*x.residual_c,0)/residualSeries.length):null;$('kFinal').textContent=`${last.plant_temp_c.toFixed(1)} °C`;$('kPeak').textContent=`${peak.toFixed(1)} °C`;$('kDuty').textContent=`${(duty*100).toFixed(1)} %`;$('kEnergy').textContent=energyFmt(electricalJ);$('kTau').textContent=timeFmt(p.rth*p.cth);$('kSettle').textContent=st==null?'not reached':timeFmt(st);$('rEq').textContent=`${eq.toFixed(1)} °C`;$('rInitLoss').textContent=`${((p.initial-p.ambient)/p.rth).toFixed(1)} W`;$('rOvershoot').textContent=`${overshoot>=0?'+':''}${overshoot.toFixed(2)} °C`;$('rMae').textContent=`${mae.toFixed(2)} °C`;$('rThermalEnergy').textContent=energyFmt(thermalJ);$('rRmse').textContent=rmse==null?'—':`${rmse.toFixed(3)} °C`;$('rMeasuredN').textContent=String(measured.length);$('residualTitle').textContent=residualSeries.length?`${residualSeries.length} matched points; residual = measured − model`:'Import measured CSV to compare against the digital model';$('statusBadge').textContent=`${r.length.toLocaleString()} samples`;const tempSeries=[{data:r.map(x=>[x.time_min,x.plant_temp_c]),color:'#63e6be',width:2.4},{data:r.map(x=>[x.time_min,x.sensor_temp_c]),color:'#74c0fc',width:1.6},{data:[[0,p.setpoint],[p.duration/60,p.setpoint]],color:'#ffd43b',width:1.4,dash:[7,5]}];if(measured.length)tempSeries.push({data:measured.map(x=>[x.time_s/60,x.temp_c]),color:'#ff8787',width:1.3,points:true});lineCanvas('tempChart',tempSeries,{xLabel:'Time (minutes)',yLabel:'Temperature (°C)'});lineCanvas('fluxChart',[{data:r.map(x=>[x.time_min,x.thermal_heater_flux_w]),color:'#63e6be',width:1.8},{data:r.map(x=>[x.time_min,x.heat_loss_w]),color:'#ff8787',width:1.8},{data:r.map(x=>[x.time_min,x.net_flux_w]),color:'#b197fc',width:1.6}],{xLabel:'Time (minutes)',yLabel:'Power / heat flux (W)'});lineCanvas('controlChart',[{data:r.map(x=>[x.time_min,100*x.command_fraction]),color:'#74c0fc',width:1.8},{data:r.map(x=>[x.time_min,x.control_error_c]),color:'#ffd43b',width:1.4}],{xLabel:'Time (minutes)',yLabel:'Output % / error °C'});lineCanvas('residualChart',[{data:residualSeries.map(x=>[x.time_s/60,x.residual_c]),color:'#ff8787',width:1.8,points:true},{data:[[0,0],[p.duration/60,0]],color:'#9cb8af',width:1,dash:[5,5]}],{xLabel:'Time (minutes)',yLabel:'Residual (°C)',yMin:residualSeries.length?null:-1,yMax:residualSeries.length?null:1});renderTable()}
+  function timeFmt(s){return s<60?`${s.toFixed(0)} s`:`${(s/60).toFixed(1)} min`}
+  function energyFmt(j){const wh=j/3600;return wh<1000?`${wh.toFixed(1)} Wh`:`${(wh/1000).toFixed(3)} kWh`}
+  function renderTable(){const body=$('dataBody');body.innerHTML='';const r=results,count=Math.min(28,r.length);for(let k=0;k<count;k++){const i=Math.round(k*(r.length-1)/Math.max(1,count-1)),x=r[i],tr=document.createElement('tr'),vals=[x.time_s.toFixed(1),x.plant_temp_c.toFixed(2),x.sensor_temp_c.toFixed(2),x.ambient_temp_c.toFixed(2),x.command_fraction.toFixed(3),x.electrical_heater_power_w.toFixed(1),x.heat_loss_w.toFixed(1),x.net_flux_w.toFixed(1),x.control_error_c.toFixed(2)];vals.forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td)});body.appendChild(tr)}}
+  function download(name,content,type='text/plain'){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+  function exportCSV(){if(!results.length)return;const keys=Object.keys(results[0]),lines=[keys.join(',')];for(const row of results)lines.push(keys.map(k=>Number.isFinite(row[k])?row[k]:'').join(','));download('heater_simulation_results.csv',lines.join('\n'),'text/csv')}
+  function exportJSON(){download('heater_simulation_session.json',JSON.stringify({generated_at:new Date().toISOString(),model:'Cth*dT/dt = Qin - (T-Tamb)/Rth',parameters:params(),measured_data:measured,residuals:residualSeries,results},null,2),'application/json')}
+  function exportConfig(){download('heater_simulation_config.json',JSON.stringify({generated_at:new Date().toISOString(),parameters:params()},null,2),'application/json')}
+  function exportPNG(){const ids=['tempChart','fluxChart','controlChart','residualChart'],canvases=ids.map(id=>$(id)),width=Math.max(...canvases.map(c=>c.width)),height=canvases.reduce((a,c)=>a+c.height,0),out=document.createElement('canvas');out.width=width;out.height=height;const ctx=out.getContext('2d');ctx.fillStyle='#07110f';ctx.fillRect(0,0,width,height);let y=0;for(const c of canvases){ctx.drawImage(c,0,y);y+=c.height}out.toBlob(blob=>{if(!blob)return;const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='heater_dashboard_charts.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)},'image/png')}
+  function parseMeasuredCSV(text){const lines=text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);if(lines.length<2)throw new Error('CSV has no data rows.');const header=lines[0].split(',').map(x=>x.trim().toLowerCase()),tSecIdx=header.findIndex(h=>['time_s','time','seconds','time_sec'].includes(h)),tMinIdx=header.findIndex(h=>['time_min','minutes','time_minutes'].includes(h)),tempIdx=header.findIndex(h=>['temp_c','temperature_c','temperature','temp'].includes(h));if((tSecIdx<0&&tMinIdx<0)||tempIdx<0)throw new Error('Expected time_s or time_min plus temp_c.');const out=[];for(let i=1;i<lines.length;i++){const parts=lines[i].split(',').map(x=>x.trim()),tv=+(parts[tSecIdx>=0?tSecIdx:tMinIdx]),temp=+parts[tempIdx];if(Number.isFinite(tv)&&Number.isFinite(temp))out.push({time_s:tSecIdx>=0?tv:tv*60,temp_c:temp})}out.sort((a,b)=>a.time_s-b.time_s);return out.slice(0,20000)}
+  async function importMeasured(file){try{const text=await file.text();measured=parseMeasuredCSV(text);computeResiduals();renderAll();$('statusBadge').textContent=`Measured data loaded: ${measured.length} rows`}catch(err){alert(`Measured CSV could not be loaded: ${err.message}`)}}
+  for(const [id] of ranged)$(id).addEventListener('input',schedule);['controller','kp','ki','kd','iClamp','disturbanceTime','disturbanceDelta'].forEach(id=>$(id).addEventListener('input',schedule));$('disturbanceOn').addEventListener('change',schedule);$('runBtn').addEventListener('click',simulate);$('resetBtn').addEventListener('click',()=>{applyDefaults();simulate()});$('csvBtn').addEventListener('click',exportCSV);$('jsonBtn').addEventListener('click',exportJSON);$('configBtn').addEventListener('click',exportConfig);$('pngBtn').addEventListener('click',exportPNG);$('measureFile').addEventListener('change',e=>{if(e.target.files&&e.target.files[0])importMeasured(e.target.files[0])});$('clearMeasuredBtn').addEventListener('click',()=>{measured=[];residualSeries=[];$('measureFile').value='';renderAll()});window.addEventListener('resize',()=>{clearTimeout(updateTimer);updateTimer=setTimeout(renderAll,100)});applyDefaults();simulate();
+})();
+</script>
+</body>
+</html>
