@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loaded Deck Inquiry Bench</title>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel-2: #1f2937;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --line: #374151;
+      --accent: #f59e0b;
+      --accent-2: #38bdf8;
+      --good: #22c55e;
+      --warn: #f97316;
+      --bad: #ef4444;
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      --radius: 18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(56, 189, 248, 0.13), transparent 30%),
+        radial-gradient(circle at 80% 0%, rgba(245, 158, 11, 0.14), transparent 25%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      padding: 28px 32px 16px;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+    .eyebrow {
+      color: var(--accent);
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 54px);
+      line-height: 1.02;
+    }
+    .subtitle {
+      color: var(--muted);
+      max-width: 980px;
+      font-size: 17px;
+      line-height: 1.55;
+      margin: 16px 0 0;
+    }
+    main {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 16px 32px 40px;
+      display: grid;
+      grid-template-columns: 390px minmax(0, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 980px) {
+      main { grid-template-columns: 1fr; padding: 14px 16px 32px; }
+      header { padding: 24px 16px 10px; }
+    }
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)), var(--panel);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card h2, .card h3 { margin: 0; }
+    .card-head {
+      padding: 18px 18px 12px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,0.025);
+    }
+    .card-head p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .card-body { padding: 18px; }
+    .control-grid { display: grid; gap: 14px; }
+    label {
+      display: grid;
+      gap: 7px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+    input, select {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #0b1220;
+      color: var(--text);
+      padding: 11px 12px;
+      font-size: 15px;
+      outline: none;
+    }
+    input:focus, select:focus {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.16);
+    }
+    .inline-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    button {
+      border: 0;
+      border-radius: 13px;
+      padding: 12px 14px;
+      background: var(--accent);
+      color: #111827;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.12s ease, filter 0.12s ease, opacity 0.12s ease;
+    }
+    button:hover { filter: brightness(1.06); transform: translateY(-1px); }
+    button:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+    .button-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+    .secondary {
+      background: #263244;
+      color: var(--text);
+      border: 1px solid var(--line);
+    }
+    .status {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(56, 189, 248, 0.09);
+      color: #c7eefc;
+      border: 1px solid rgba(56, 189, 248, 0.18);
+      font-size: 14px;
+      line-height: 1.42;
+    }
+    .status.warn {
+      background: rgba(245, 158, 11, 0.10);
+      color: #fde68a;
+      border-color: rgba(245, 158, 11, 0.22);
+    }
+    .deck-box { display: grid; gap: 10px; margin-top: 16px; }
+    .deck-row {
+      display: grid;
+      grid-template-columns: 78px 1fr;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.025);
+    }
+    .suits { font-size: 22px; letter-spacing: 0.08em; white-space: nowrap; }
+    .red { color: #fb7185; }
+    .black { color: #d1d5db; }
+    .small { color: var(--muted); font-size: 12px; line-height: 1.35; }
+    .right { display: grid; gap: 20px; }
+    .tabs { display: flex; gap: 8px; padding: 10px 10px 0; flex-wrap: wrap; }
+    .tab {
+      background: #172033;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      padding: 10px 13px;
+      border-radius: 999px;
+      font-weight: 800;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .tab.active {
+      background: rgba(245, 158, 11, 0.16);
+      color: #fed7aa;
+      border-color: rgba(245, 158, 11, 0.34);
+    }
+    .tab-panel { display: none; padding: 18px; }
+    .tab-panel.active { display: block; }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    @media (max-width: 1100px) { .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 560px) { .metric-grid { grid-template-columns: 1fr; } }
+    .metric {
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid var(--line);
+      min-height: 105px;
+    }
+    .metric .label {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 900;
+    }
+    .metric .value {
+      margin-top: 8px;
+      font-size: 27px;
+      font-weight: 950;
+      font-variant-numeric: tabular-nums;
+    }
+    .metric .note { margin-top: 6px; color: var(--muted); font-size: 12px; line-height: 1.35; }
+    .interpretation {
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #0b1220;
+      padding: 16px;
+      line-height: 1.55;
+    }
+    .interpretation strong { color: #fff; }
+    .formula-strip {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--line);
+      font-family: var(--mono);
+      overflow-x: auto;
+      color: #dbeafe;
+      white-space: nowrap;
+    }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: normal;
+      background: #050a14;
+      border: 1px solid var(--line);
+      color: #d1fae5;
+      padding: 16px;
+      border-radius: 16px;
+      line-height: 1.5;
+      font-size: 13px;
+      overflow-x: auto;
+      font-family: var(--mono);
+    }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 900px) { .split { grid-template-columns: 1fr; } }
+    .chart-wrap {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #0b1220;
+      padding: 14px;
+      min-height: 360px;
+    }
+    .chart-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    .histogram {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(14px, 1fr);
+      align-items: end;
+      gap: 4px;
+      height: 230px;
+      padding: 12px 0 4px;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+    }
+    .bar-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      align-items: end;
+      height: 100%;
+    }
+    .bar { border-radius: 6px 6px 0 0; min-height: 2px; }
+    .bar.fair { background: rgba(56, 189, 248, 0.82); }
+    .bar.loaded { background: rgba(245, 158, 11, 0.9); }
+    .bar.observed { outline: 2px solid #fff; outline-offset: 1px; }
+    .xlabels {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(14px, 1fr);
+      gap: 4px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 8px;
+      text-align: center;
+    }
+    .legend { display: flex; gap: 14px; flex-wrap: wrap; color: var(--muted); font-size: 13px; margin-top: 12px; }
+    .swatch { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+    .swatch.fair { background: rgba(56, 189, 248, 0.82); }
+    .swatch.loaded { background: rgba(245, 158, 11, 0.9); }
+    table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 14px; font-size: 14px; }
+    th, td { padding: 11px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: #fff; background: rgba(255,255,255,0.06); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+    td { color: var(--text); }
+    tr:last-child td { border-bottom: 0; }
+    .callout {
+      padding: 15px;
+      border-radius: 16px;
+      background: rgba(34, 197, 94, 0.08);
+      border: 1px solid rgba(34, 197, 94, 0.20);
+      color: #dcfce7;
+      line-height: 1.55;
+      margin-top: 14px;
+    }
+    .warning-callout {
+      padding: 15px;
+      border-radius: 16px;
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.22);
+      color: #ffedd5;
+      line-height: 1.55;
+      margin-top: 14px;
+    }
+    .footer-note { color: var(--muted); font-size: 12px; line-height: 1.45; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">Executable Inquiry Bench</div>
+    <h1>Loaded Deck Probability Lab</h1>
+    <p class="subtitle">
+      A hands-on classroom demonstration of random chance, hidden bias, binomial thinking, and epidemiological risk.
+      The Python core runs inside the browser through Pyodide, so the formula is unfolded into visible executable steps.
+    </p>
+  </header>
+
+  <main>
+    <aside class="card">
+      <div class="card-head">
+        <h2>Lab Controls</h2>
+        <p>Enter the class data from your card experiment, then let Python compute the probability under the fair-deck model.</p>
+      </div>
+      <div class="card-body">
+        <div class="control-grid">
+          <div class="inline-inputs">
+            <label>
+              Trials, n
+              <input id="n" type="number" min="1" max="200" step="1" value="20" />
+            </label>
+            <label>
+              Observed reds, k
+              <input id="k" type="number" min="0" max="200" step="1" value="16" />
+            </label>
+          </div>
+
+          <div class="inline-inputs">
+            <label>
+              Fair deck p
+              <input id="pNull" type="number" min="0" max="1" step="0.01" value="0.50" />
+            </label>
+            <label>
+              Loaded deck p
+              <input id="pLoaded" type="number" min="0" max="1" step="0.01" value="0.75" />
+            </label>
+          </div>
+
+          <label>
+            Simulation runs
+            <input id="runs" type="number" min="100" max="20000" step="100" value="2000" />
+          </label>
+
+          <div class="button-row">
+            <button id="analyzeBtn" disabled>Analyze</button>
+            <button id="simulateBtn" class="secondary" disabled>Simulate</button>
+          </div>
+
+          <div class="button-row">
+            <button id="sampleFair" class="secondary" disabled>Sample: Fair-ish</button>
+            <button id="sampleLoaded" class="secondary" disabled>Sample: Loaded-ish</button>
+          </div>
+        </div>
+
+        <div id="status" class="status warn">Loading Python engine in the browser...</div>
+
+        <div class="deck-box">
+          <div class="deck-row">
+            <div class="suits"><span class="black">♣ ♠</span> <span class="red">♦ ♥</span></div>
+            <div>
+              <strong>Normal deck</strong>
+              <div class="small">26 red / 26 black → P(red) = 0.50</div>
+            </div>
+          </div>
+          <div class="deck-row">
+            <div class="suits"><span class="black">♣</span> <span class="red">♦ ♥ ♥</span></div>
+            <div>
+              <strong>Loaded deck</strong>
+              <div class="small">39 red / 13 black ‒ P(red) = 0.75</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="right">
+      <div class="card">
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="results">Results</button>
+          <button class="tab" data-tab="simulation">Simulation</button>
+          <button class="tab" data-tab="python">Python Core</button>
+          <button class="tab" data-tab="mapping">Real-World Mapping</button>
+        </div>
+
+        <div id="results" class="tab-panel active">
+          <div class="metric-grid">
+            <div class="metric">
+              <div class="label">Observed</div>
+              <div id="observedValue" class="value">16 / 20</div>
+              <div class="note">Red-card count from the physical trial.</div>
+            </div>
+            <div class="metric">
+              <div class="label">Fair expectation</div>
+              <div id="fairExpected" class="value">10.0</div>
+              <div class="note">Expected red count if p = 0.50.</div>
+            </div>
+            <div class="metric">
+              <div class="label">Tail probability</div>
+              <div id="tailValue" class="value">—</div>
+              <div class="note">P(X ≤ k) under the fair-deck model.</div>
+            </div>
+            <div class="metric">
+              <div class="label">Risk shift</div>
+              <div id="rrValue" class="value">1.50×</div>
+              <div class="note">Loaded p divided by fair p.</div>
+            </div>
+          </div>
+
+          <div id="interpretation" class="interpretation">
+            Press <strong>Analyze</strong> to compute the result with the Python core.
+          </div>
+
+          <div class="formula-strip">
+            P(X ≤ k) = probability of this many reds or more if the fair-deck hypothesis is true
+          </div>
+        </div>
+
+        <div id="simulation" class="tab-panel">
+          <div class="split">
+            <div class="chart-wrap">
+              <div class="chart-title">
+                <strong>Simulated distribution</strong>
+                <span id="chartCaption">Press Simulate</span>
+              </div>
+              <div id="histogram" class="histogram"></div>
+              <div id="xlabels" class="xlabels"></div>
+              <div class="legend">
+                <span><span class="swatch fair"></span>Fair deck simulation</span>
+                <span><span class="swatch loaded"></span>Loaded deck simulation</span>
+                <span>White outline = observed k</span>
+              </div>
+            </div>
+            <div>
+              <h3>What the graph means</h3>
+              <div class="callout">
+                The fair-deck distribution is centered near <strong>n × 0.50</strong>. The loaded-deck distribution is centered near <strong>n × 0.75</strong>. A risk factor does not guarantee an outcome; it shifts the population distribution.
+              </div>
+              <div class="warning-callout">
+                The smoking analogy is about population risk. One person’s outcome is never enough to prove causation. Repeated observations across large groups reveal whether the deck has been loaded.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="python" class="tab-panel">
+          <h3>Visible Python core</h3>
+          <p class="small" style="margin-top: 8px; margin-bottom: 12px;">
+            This is the heart of the demonstration. The mathematical expression is unfolded into named steps: ways, success part, failure part, and tail probability.
+          </p>
+          <pre id="pythonCode"></pre>
+          <div class="callout">
+            Teaching phrase: <strong>symbolic notation compresses thought; executable code decompresses it into visible steps.</strong>
+          </div>
+        </div>
+
+        <div id="mapping" class="tab-panel">
+          <h3>Mapping the card model to smoking and lung cancer</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Card model</th>
+                <th>Risk model</th>
+                <th>Careful interpretation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>One card draw</td>
+                <td>One person in a population</td>
+                <td>A single case does not prove a cause.</td>
+              </tr>
+              <tr>
+                <td>Red card</td>
+                <td>Lung cancer case</td>
+                <td>The event is counted as yes/no for modeling.</td>
+              </tr>
+              <tr>
+                <td>Fair deck</td>
+                <td>Baseline risk process</td>
+                <td>Ordinary background risk still exists.</td>
+              </tr>
+              <tr>
+                <td>Loaded deck</td>
+                <td>Elevated risk from exposure</td>
+                <td>Smoking shifts probability; it does not guarantee cancer in every individual.</td>
+              </tr>
+              <tr>
+                <td>Too many red cards</td>
+                <td>Excess cases in exposed group</td>
+                <td>Repeated excess cases are evidence that the risk process changed.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="warning-callout">
+            Responsible framing: smoking greatly increases risk, but lung cancer patients should not be reduced to blame. Addiction, marketing, secondhand exposure, environment, and unequal support all matter. The scientific point is probability loading, not cruelty toward individuals.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const PYTHON_CORE = String.raw`from math import comb
+import random
+import json
+
+
+def exact_probability(n, k, p):
+    """
+    Probability of exactly k successes in n independent trials.
+    This is the binomial formula unfolded into named steps.
+    """
+    ways = comb(n, k)
+    success_part = p ** k
+    failure_part = (1 - p) ** (n - k)
+    return ways * success_part * failure_part((
+
+
+def probability_at_least(n, observed_k, p):
+    """
+    Tail probability: P(X >= observed_k).
+    This asks how often a fair deck would naturally produce
+    the observed result or something even more extreme.
+    """
+    total = 0.0
+    for k in range(observed_k, n + 1):
+        total += exact_probability(n, k, p)
+    return total
+
+
+def simulate_counts(n, p, runs):
+    """
+    Simulate many repeated experiments.
+    Each experiment counts how many red cards appear in n draws.
+    """
+    counts = [0] * (n + 1)
+    for _ in range(runs):
+        successes = 0
+        for _ in range(n):
+            if random.random() < p:
+                successes += 1
+        counts[successes] += 1
+    return counts
+
+
+def analyze(n, observed_k, p_null, p_loaded, runs):
+    exact_null = exact_probability(n, observed_k, p_null)
+    tail_null = probability_at_least(n, observed_k, p_null)
+    exact_loaded = exact_probability(n, observed_k, p_loaded)
+    tail_loaded = probability_at_least(n, observed_k, p_loaded)
+
+    relative_risk = p_loaded / p_null if p_null > 0 else None
+    expected_null = n * p_null
+    expected_loaded = n * p_loaded
+
+    fair_counts = simulate_counts(n, p_null, runs)
+    loaded_counts = simulate_counts(n, p_loaded, runs)
+
+    return json.dumps({
+        "n": n,
+        "observed_k": observed_k,
+        "p_null": p_null,
+        "p_loaded": p_loaded,
+        "expected_null": expected_null,
+        "expected_loaded": expected_loaded,
+        "exact_null": exact_null,
+        "tail_null": tail_null,
+        "exact_loaded": exact_loaded,
+        "tail_loaded": tail_loaded,
+        "relative_risk": relative_risk,
+        "fair_counts": fair_counts,
+        "loaded_counts": loaded_counts,
+        "runs": runs
+    })`;
+
+    let pyodide = null;
+    let lastResult = null;
+
+    const els = {
+      n: document.getElementById('n'),
+      k: document.getElementById('k'),
+      pNull: document.getElementById('pNull'),
+      pLoaded: document.getElementById('pLoaded'),
+      runs: document.getElementById('runs'),
+      status: document.getElementById('status'),
+      analyzeBtn: document.getElementById('analyzeBtn'),
+      simulateBtn: document.getElementById('simulateBtn'),
+      sampleFair: document.getElementById('sampleFair'),
+      sampleLoaded: document.getElementById('sampleLoaded'),
+      observedValue: document.getElementById('observedValue'),
+      fairExpected: document.getElementById('fairExpected'),
+      tailValue: document.getElementById('tailValue'),
+      rrValue: document.getElementById('rrValue'),
+      interpretation: document.getElementById('interpretation'),
+      pythonCode: document.getElementById('pythonCode'),
+      histogram: document.getElementById('histogram'),
+      xlabels: document.getElementById('xlabels'),
+      chartCaption: document.getElementById('chartCaption')
+    };
+
+    els.pythonCode.textContent = PYTHON_CORE;
+
+    function fmtProbability(x) {
+      if (x === 0) return '0';
+      if (x < 0.000001) return x.toExponential(2);
+      if (x < 0.001) return x.toExponential(3);
+      return x.toFixed(4);
+    }
+
+    function fmtOne(x) {
+      return Number(x).toFixed(1);
+    }
+
+    function validateInputs() {
+      const n = Number.parseInt(els.n.value, 10);
+      const k = Number.parseInt(els.k.value, 10);
+      const pNull = Number.parseFloat(els.pNull.value);
+      const pLoaded = Number.parseFloat(els.pLoaded.value);
+      const runs = Number.parseInt(els.runs.value, 10);
+
+      if (!Number.isInteger(n) || n < 1 || n > 200) throw new Error('Trials n must be an integer from 1 to 200.');
+      if (!Number.isInteger(k) || 
