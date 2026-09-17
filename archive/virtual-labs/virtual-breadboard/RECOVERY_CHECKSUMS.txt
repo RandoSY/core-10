@@ -1,0 +1,25 @@
+Virtual Breadboard Thermal Control Lab — recovered runnable artifact
+
+Original filename:
+  virtual_breadboard_thermal_lab_v2_2.html
+Original size:
+  98066 bytes
+SHA-256 original HTML:
+  20bfe7fc4dfc3d5f7bbdfad5e96ec76579325138a56077cdb03535750f235b14
+
+GitHub preservation filename:
+  virtual_breadboard_thermal_lab_v2_2.html.gz
+SHA-256 gzip archive:
+  e316c2a271ccf6284cc61411b3f35068301d3f320d5966b4aa14c37a8ba9a674
+
+Recovery command on systems with gzip:
+  gzip -dc virtual_breadboard_thermal_lab_v2_2.html.gz > virtual_breadboard_thermal_lab_v2_2.html
+
+Then verify:
+  sha256sum virtual_breadboard_thermal_lab_v2_2.html
+
+Expected result:
+  20bfe7fc4dfc3d5f7bbdfad5e96ec76579325138a56077cdb03535750f235b14
+
+Provenance note:
+The runnable HTML was recovered from the ChatGPT Library on 17 September 2026 during Intellectual Estate recovery. The v2.3 Programmer's Guide still identifies this v2.2 HTML as the file to open for a first successful run. The archive therefore preserves the recovered filename and does not fabricate a separate v2.3 executable.
