@@ -1,0 +1,32 @@
+name: Verify historical Core10/Core12 original releases
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'one-cup-chemistry/releases/v0.2/**'
+      - 'recovered-publications/CORE12_PRO_Unit_8_Flux_Original_2026/**'
+      - '.github/workflows/verify-original-releases.yml'
+  schedule:
+    - cron: '29 15 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  rebuild-originals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reconstruct original One Cup Chemistry v0.2 bundle and verify source ZIP
+        run: python one-cup-chemistry/releases/v0.2/rebuild_one_cup_bundle.py
+      - name: Reconstruct original Core12 illustrated Flux PDF and verify checksum
+        run: python recovered-publications/CORE12_PRO_Unit_8_Flux_Original_2026/rebuild_flux_pdf.py
+      - name: Report original artifact dimensions
+        run: |
+          ls -lh one-cup-chemistry/releases/v0.2/*.zip
+          ls -lh recovered-publications/CORE12_PRO_Unit_8_Flux_Original_2026/*.pdf
