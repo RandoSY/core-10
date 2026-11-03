@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "created": "2026-11-03",
+  "explanation": "The first signed-off byte-identical PDF baseline for CORE 10, including historical Core 12. Adding or changing a PDF requires updating this manifest deliberately; the CI gate checks content hashes, size, parsing, and rendering.",
+  "pdfs": [
+    {
+      "path": "kitchen-inquiry-lab/original-editions/Measured_Energy_Teacher_Guide_v4.pdf",
+      "expected_git_blob_sha1": "cd9f5aa7fa0005c328fc9967aa4d929e7f84bb31",
+      "expected_size_bytes": 142459
+    },
+    {
+      "path": "kitchen-inquiry-lab/original-editions/UMA_KitchenLab_Human_Candle_Learning_Guide_v2.pdf",
+      "expected_git_blob_sha1": "38090baf258508debe1a6c0b6b4c6ca5e35fb5b2",
+      "expected_size_bytes": 945981
+    },
+    {
+      "path": "kitchen-inquiry-lab/original-editions/UMA_Learning_Sequence_Corrected_Experiment_Listing_v1_2.pdf",
+      "expected_git_blob_sha1": "0e90b87d3e1abfdb3539fee05cb6620391bd808c",
+      "expected_size_bytes": 23876
+    },
+    {
+      "path": "kitchen-inquiry-lab/original-editions/UMA_Phenomena_First_Experiment_Order_v1_1.pdf",
+      "expected_git_blob_sha1": "6b9109b14e34487fbf6974097dcc733b65b0e6a1",
+      "expected_size_bytes": 1186086
+    },
+    {
+      "path": "measurement-ladder/itty-bitty/Itty_Bitty_Teacher_Guide.pdf",
+      "expected_git_blob_sha1": "5d868ded14e13a1622cfb06f816164cf3bedd90a",
+      "expected_size_bytes": 15857,
+      "expected_sha256": "180304f948fc1f23a3a2817226030d8f99cd39b4838fb416703e1dc604cb809c",
+      "expected_pdf_pages": 5
+    },
+    {
+      "path": "one-cup-chemistry/original-editions/Cooling_Curves_Brines_AI_Reasoning_Teachers_Guide.pdf",
+      "expected_git_blob_sha1": "fada54ba71580007b2619fd33249fd390650a490",
+      "expected_size_bytes": 492368
+    },
+    {
+      "path": "one-cup-chemistry/original-editions/From_Cooling_Water_to_Living_Molecules.pdf",
+      "expected_git_blob_sha1": "27fa82563bfc34ecd43c84fd961108ee5c1aa9e3",
+      "expected_size_bytes": 834740
+    },
+    {
+      "path": "one-cup-chemistry/original-editions/One_Cup_Chemistry_Student_Lab_Book_v0_2_BRANDED.pdf",
+      "expected_git_blob_sha1": "213a3ae7d4f82345e4ddcccab6c0112bc12e6a8d",
+      "expected_size_bytes": 1411599
+    },
+    {
+      "path": "one-cup-chemistry/original-editions/One_Cup_Chemistry_Teacher_Manual_v0_2_BRANDED.pdf",
+      "expected_git_blob_sha1": "877331f68252ef0cdb3cf0dfde2155b896cb1800",
+      "expected_size_bytes": 1678510
+    }
+  ]
+}

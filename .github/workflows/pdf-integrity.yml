@@ -1,0 +1,35 @@
+name: Original PDF Integrity Gate
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '**/*.pdf'
+      - 'measurement-ladder/PDF_INTEGRITY_BASELINE_2026-11-03.json'
+      - 'tools/check_pdf_integrity.py'
+      - '.github/workflows/pdf-integrity.yml'
+  push:
+    paths:
+      - '**/*.pdf'
+      - 'measurement-ladder/PDF_INTEGRITY_BASELINE_2026-11-03.json'
+      - 'tools/check_pdf_integrity.py'
+      - '.github/workflows/pdf-integrity.yml'
+  schedule:
+    - cron: '43 13 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  pdf-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install two independent PDF engines
+        run: python -m pip install "pypdf>=5,<8" "pymupdf>=1.24,<2"
+      - name: Verify all original PDFs, checksums, structure, page rendering
+        run: python tools/check_pdf_integrity.py
