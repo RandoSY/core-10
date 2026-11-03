@@ -1,0 +1,414 @@
+CORE12 PRO Unit 8 — It's All About the Flux
+
+ARCHIVAL TEXT TRANSCRIPTION — not the original formatted PDF.
+Original PDF filename: CORE12_PRO_Unit_8_Its_All_About_the_Flux.pdf
+Source: author's ChatGPT Library edition, retrieved 2026-11-03.
+Images, illustrations, original layout and page fidelity are NOT preserved by this text transcription.
+Original PDF still requires separate binary GitHub publication for a complete archival release.
+
+========================================================================
+
+<PARSED TEXT FOR PAGE: 1 / 18>
+CORE TWELVE STEM LEARNING ARCHITECTURE
+It's All About the FLUX!
+CORE12 PRO Unit 8
+Smart Calorimetry • Microwave Power • Energy Flux • Open Systems
+From heat in a cup to watts per square meter - and beyond.
+THE QUESTION THAT ORGANIZES THE UNIT
+What crosses a boundary, how fast, and through how much area?
+SOURCE → FLUX → BOUNDARY → TRANSFER → STORAGE → RESPONSE
+Instructor + Student Edition • Illustrated laboratory sequence • August 2026 Illustrative/generated imagery; equations and activities grounded in CORE12 reference documents.
+<PARSED TEXT FOR PAGE: 2 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 2
+<PARSED TEXT FOR PAGE: 3 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 3
+1. Instructor Overview: Why Flux Is the
+Organizing Idea
+This improved CORE12 Unit 8 expands Smart Pop-Can Calorimetry into a coherent transport-and-energy
+sequence. The canonical activity already asks learners to connect mass, temperature change, energy input,
+power, efficiency, heat loss, and residuals. The new microwave and flux material makes the next question
+unavoidable: how intensely is energy crossing a boundary?
+SOURCE → FLUX → BOUNDARY → TRANSFER → STORAGE → RESPONSE
+CORE12 sequencing law How it appears in this unit
+Experience Before Equation Heat water, measure temperature, observe cooling - then formalize Q, P, and flux.
+Need Before Technology Add thermistors, wattmeter, logging, or modeling only when a new question requires
+them.
+Same Structure, New
+Phenomenon
+Recognize transport ideas across heat, light, neutrons, charge, diffusion, and mass
+flow.
+Compare the Mirrors Test the phenomenon against mathematical, analog, and digital representations.
+The validation habit
+PHENOMENON MATH
+MIRROR
+ANALOG
+MIRROR
+DIGITAL
+MIRROR
+MEASURE → MODEL → PREDICT → COMPARE → RESIDUAL → REVISE
+Instructor technical note. “Flux” is not used identically in every discipline. In radiometry, radiant flux is total radiant power in
+watts, while irradiance is W/m². In heat transfer, heat flux commonly means W/m². In neutron transport, scalar neutron flux has
+units m⁻²·s⁻¹ and is not simply the net directional crossing rate; neutron current carries that directional crossing meaning. The
+unifying classroom idea is still useful: transport across space and boundaries, with explicit units and geometry.
+<PARSED TEXT FOR PAGE: 4 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 4
+2. Lesson 8A - Heat as Measurable Energy
+Illustrative calorimetry setup: water, temperature
+probe, and simple insulated container.
+Opening question:
+How can a temperature change become a quantitative
+measurement of energy?
+Core relationship
+Q = mcΔT
+Where Q is thermal energy gained, m is mass, c is
+specific heat, and ΔT is temperature change.
+LAB PROTOCOL
+1. Measure the mass of the water. Record instrument resolution and units.
+2. Measure initial temperature T₁. Note ambient temperature as a boundary condition.
+3. Add a controlled energy input or use the established pop-can calorimetry procedure.
+4. Stir, measure final temperature T₂, and calculate ΔT = T₂ - T₁.
+5. Compute Q = mcΔT. Repeat at least three trials when time permits.
+6. Ask what the model does not yet account for: container heat capacity, evaporation, heat loss, probe lag, or
+calibration.
+Trial m (g) T₁ (°C) T₂ (°C) ΔT (°C) Q (J)
+1
+2
+3
+First conceptual payoff: a gram of water and a thermometer can become an
+energy-measuring instrument.
+<PARSED TEXT FOR PAGE: 5 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 5
+3. Lesson 8B - Microwave Calorimetry: Watts
+Become Heat
+The microwave is not added as a novelty appliance. It is an energy-transfer source that lets learners infer
+absorbed power from a measurable temperature rise.
+Illustrative microwave-water heating setup. Use
+only microwave-safe containers and normal
+classroom safety practices.
+WALL
+ENERGY
+MICROWAVE
+FIELD
+ABSORBED
+POWER
+WATER
+ENERGY
+HEAT
+LOSS
+Measured data let us test where the energy ledger closes - and where it does not.
+Core equations
+Q = mcΔT Pabsorbed = Q / t E = Pt 1 W = 1 J/s
+Procedure
+1. Use a known mass of water in a microwave-safe container.
+2. Measure initial temperature and note the starting conditions.
+3. Heat for a measured interval t, using a moderate time chosen to avoid boiling or superheating.
+4. Stir thoroughly before taking the final temperature; microwave fields are spatially nonuniform.
+5. Calculate Q = mcΔT and then P_absorbed = Q/t.
+6. If a plug-in wattmeter is available, compare electrical input energy with water energy.
+Important modeling caution: do not treat the microwave cavity as a uniform W/m² field. Standing-wave patterns, reflections,
+container geometry, and the absorbing load matter. The robust classroom measurement is the water’s energy gain and the
+inferred absorbed power.
+<PARSED TEXT FOR PAGE: 6 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 6
+4. Worked Example - From Temperature Rise
+to Absorbed Power
+Quantity Value
+Water mass, m 500 g
+Initial temperature, T₁ 20.0 °C
+Final temperature, T₂ 40.0 °C
+Heating time, t 60 s
+Specific heat, c 4.186 J/(g·°C)
+ΔT = 20.0 °C
+Q = (500 g)(4.186 J/(g·°C))(20.0 °C) = 41,860 J
+Pabsorbed = 41,860 J / 60 s ≈ 698 W
+A watt is not a label on an appliance. It is a measured rate of energy transfer:
+1 watt = 1 joule per second.
+Student reasoning prompts
+If the microwave label says 1000 W, why might the water show only about 700 W
+of absorbed power?
+How would doubling the water mass affect ΔT for the same absorbed energy?
+Why is stirring before the final temperature reading part of the model, not merely
+a procedural detail?
+Which measured quantity contributes most to uncertainty in P_absorbed: mass,
+temperature change, or time?
+<PARSED TEXT FOR PAGE: 7 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 7
+5. Lesson 8C - Energy Accounting: Where Did
+It Go?
+Illustrative plug-in wattmeter and water experiment. A
+wall-energy measurement makes the energy ledger
+experimentally testable.
+The central model is deliberately simple:
+Ein ≈ Estored + Elost
+A residual turns “missing energy” into a scientific object:
+Eresidual = Ein - (Estored + Emodeled losses)
+Possible term How to test or bound it
+Container heating Estimate container mass and heat capacity, or run a blank/calibration trial.
+Heat loss to air Compare fast and slow heating; fit a cooling model after heating.
+Evaporation Weigh before and after; avoid boiling.
+Nonuniform temperature Stir; repeat measurement positions.
+Instrument error Calibrate thermometer; inspect wattmeter resolution and timing.
+Microwave coupling Vary container geometry or water volume and compare absorbed power.
+CORE12 habit: never stop at the overlay. Inspect the residual and ask what
+physical assumption the leftover contradicts.
+<PARSED TEXT FOR PAGE: 8 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 8
+6. Lesson 8D - Flux: Power Spread Over Area
+Illustrative solar scene. Strong surface sunlight can
+approach roughly 1000 W/m² under favorable conditions.
+The distinction
+Energy: J
+Power: W = J/s
+Energy flux / irradiance: W/m²
+J = P/A
+Flux tells us not merely how much power exists,
+but how concentrated the transport is over area.
+Microwave-to-sunlight comparison
+If the water experiment gives Pabsorbed ≈ 698 W and strong sunlight is approximately 1000 W/m², then the
+incident solar area carrying the same raw power is:
+A = P/J = 698 W / (1000 W/m²) ≈ 0.70 m²
+That is the bridge from a cup of water to the larger solar question. The next engineering layer is conversion
+efficiency: incident solar energy is not identical to electrical output.
+Flux in many disciplines
+Domain Quantity Typical units Driving/interaction idea
+Heat heat flux q″ W/m² temperature gradient / boundary transfer
+Light irradiance Eₑ or G W/m² radiant power distributed over area
+Neutrons scalar flux φ m⁻²·s⁻¹ particle population × speed; reaction opportunity
+Charge current density J A/m² electric field and conductivity
+Mass transfer mass flux kg/(m²·s) bulk flow or concentration gradient
+Diffusion molar/particle flux mol/(m²·s) concentration gradient
+<PARSED TEXT FOR PAGE: 9 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 9
+7. Same Structure, New Phenomenon - The
+Transport-Law Family
+Many transport laws have the form: FLUX = transport property × driving
+gradient
+Phenomenon Law What drives the transport
+Heat conduction q″ = -k∇T temperature gradient
+Diffusion J = -D∇C concentration gradient
+Electrical conduction J = σE electric field (voltage gradient)
+Heat flux
+Mass flux
+Charge/current density
+The mathematical similarity is not an excuse to erase the physics. Each domain has its own constitutive law,
+geometry, boundary conditions, and units. CORE12 uses the repeated structure to build transfer: once
+learners recognize “gradient drives flux,” they can ask what the transport coefficient means in the new
+phenomenon.
+<PARSED TEXT FOR PAGE: 10 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 10
+8. Lesson 8E - Cooling After Heating: Energy
+Leaves the System
+Illustrative temperature measurement after
+heating.
+Microwave ON: temperature rises while energy enters
+T
+Microwave OFF: Newton cooling describes the return toward ambient
+time
+Newton cooling returns the unit to the canonical first-order dynamic form:
+dT/dt = -k(T - T
+a
+)
+This creates the complete thermal story:
+MICROWAVE ON: energy in → stored thermal energy | MICROWAVE OFF: energy
+out → ambient
+Suggested data run
+• Heat the same water sample to a reproducible starting temperature.
+• Begin logging immediately after the microwave stops.
+• Record T(t) at fixed intervals until the sample approaches ambient.
+• Fit k and compare measured temperature with the exponential model.
+• Plot the residual. Look for sensor lag, changing convection, evaporation, or nonuniformity.
+<PARSED TEXT FOR PAGE: 11 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 11
+9. The Fidelity Mirrors for the Improved Unit
+PHENOMENON MATH
+MIRROR
+ANALOG
+MIRROR
+DIGITAL
+MIRROR
+MEASURE → MODEL → PREDICT → COMPARE → RESIDUAL → REVISE
+Representation What the learner builds or measures Fidelity question
+Phenomenon Water heating, cooling, power draw, area, ambient
+conditions
+What actually happened?
+Math mirror Q=mcΔT; P=E/t; flux=P/A; cooling ODE; energy balance Do the equations predict the
+measured state and rates?
+Analog mirror RC storage/relaxation; electrical power and charge-flow
+analogies
+Which structure is preserved -
+storage, time constant, or balance?
+Digital mirror Logged temperature/power; numerical integration;
+model and residual plots
+Does software reproduce the
+measured trace without hiding
+assumptions?
+Suggested dashboard traces
+• Measured T(t)
+• Modeled T(t)
+• Input electrical power P(t)
+• Cumulative input energy ∫P dt
+• Stored water energy mc[T(t)-T₀]
+• Residual energy / residual temperature
+<PARSED TEXT FOR PAGE: 12 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 12
+10. Transfer Challenge - Neutron Flux
+Without Losing the Physics
+Illustrative nuclear-energy context. Reactor physics
+provides a historically important example of flux
+thinking.
+Why include neutron flux?
+It demonstrates that the “flux” idea is not confined
+to heat or light. In neutron transport, flux connects
+the neutron population and speed to the rate at
+which nuclear interactions can occur.
+A common reaction-rate form is:
+R = N σ φ
+where N is target number density, σ is microscopic
+cross section, and φ is neutron flux.
+Instructor precision note
+For an advanced audience, distinguish scalar neutron flux from neutron current. Scalar flux is conventionally the integral of
+angular flux over direction and has units of particles per area per time; it is closely related to neutron density times speed. Net
+crossings through an oriented surface are described by current. This nuance is worth preserving because the unit’s larger lesson
+is that models gain authority through explicit definitions, not slogans.
+Student transfer prompt
+Compare the microwave-water experiment with the neutron reaction-rate equation. In each case, what is the
+transported quantity, what is the target or absorbing material, and what measured response tells you an
+interaction occurred?
+<PARSED TEXT FOR PAGE: 13 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 13
+11. From Flux to Open Systems
+SYSTEM
+stored energy / mass / particles
+INWARD FLUX
+OUTWARD FLUX
+d(stored)/dt = in - out + generation - consumption
+CORE12 Unit 12 generalizes the same accounting structure to matter and energy crossing system boundaries.
+Unit 8 can therefore serve as the concrete preparation for the broader open-system statement:
+d(stored)/dt = in - out + generation - consumption
+Examples learners can classify
+System What crosses the boundary? What is stored or changed?
+Cup of hot water heat/energy internal thermal energy; temperature
+Solar panel radiant energy → electrical energy electrical output; battery state if connected
+River section water mass, sediment, heat water volume, temperature, sediment inventory
+Biological cell matter, chemical energy, heat biomass, chemical state, internal energy
+Reactor region neutrons, heat, coolant energy neutron population, thermal energy, isotopic
+inventory
+<PARSED TEXT FOR PAGE: 14 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 14
+12. Student Investigation Sheet
+Name: ________________________________ Date: __________________
+A. Before the equation
+What do you think the microwave will do to the water temperature in 60 s?
+__________________________________________________________________________________
+Which measurement will tell you how much energy the water gained?
+__________________________________________________________________________________
+Where might energy go besides into the water?
+__________________________________________________________________________________
+B. Measurements
+m (g) T₁ (°C) T₂ (°C) t (s) Wall energy (Wh or J) Ambient (°C)
+C. Calculations
+ΔT = __________________
+Q = mcΔT = __________________ J
+P_absorbed = Q/t = __________________ W
+If sunlight = 1000 W/m², equivalent area A = P/J = __________________ m²
+Residual energy = input - accounted-for = __________________
+D. Model critique
+What assumption in your calculation is least secure?
+__________________________________________________________________________________
+What pattern in the residual would make you revise the model?
+__________________________________________________________________________________
+Which repeat measurement would most improve your confidence?
+__________________________________________________________________________________
+<PARSED TEXT FOR PAGE: 15 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 15
+13. Analysis Challenges and Assessment
+1. Scaling - A 250 g sample and a 500 g sample absorb the same 20 kJ. Predict which one has the larger ΔT
+and by what factor.
+2. Power - A sample gains 36 kJ in 45 s. What is its average absorbed power?
+3. Flux - A 300 W heater spreads its output uniformly over 0.15 m². What is the average energy flux?
+4. Solar bridge - At 850 W/m² incident irradiance and 22% panel efficiency, estimate electrical output from 2.0
+m² of panel.
+5. Residual thinking - The measured heating curve rises more slowly than the constant-power model predicts
+at high temperature. Name two physical mechanisms that could produce the pattern.
+6. Transfer - Explain how heat flux, current density, and diffusion flux can share a mathematical form while
+representing different physical quantities.
+Performance rubric
+Criterion 0 1 2 3
+Measurement Absent Records values Units + repeatability Calibration + uncertainty
+Model Absent Formula copied Variables mapped Assumptions and range
+explicit
+Prediction Absent After-the-fact Before measurement Quantitative with uncertainty
+Residual Ignored Difference noted Residual computed Pattern interpreted physically
+Transfer No connection One analogy Two domains compared Structure and limits explained
+<PARSED TEXT FOR PAGE: 16 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 16
+14. Instructor Deployment Plan
+Day Core experience Primary mathematical payoff Evidence collected
+1 Pop-can calorimetry Q=mcΔT; units; conservation mass, temperature, repeated Q
+2 Microwave calorimetry P=E/t; 1 W=1 J/s absorbed power; wall energy optional
+3 Energy accounting + flux residuals; P/A energy ledger; solar-area comparison
+4 Cooling + RC mirror first-order ODE; time constant T(t), fitted k, residual
+5 Transfer + open systems transport laws; boundary balances cross-domain explanation; performance
+task
+Materials
+• microwave-safe cup/beaker; water; scale; thermometer or thermistor; timer; stirrer
+• optional pop-can calorimeter; insulated vessel; plug-in wattmeter
+• optional ESP32-C3/Pico-class logger, temperature probe, USB/BLE dashboard
+• safety mitts/handling cloth; towels; clear written microwave procedure
+Safety
+• Use microwave-safe containers only.
+• Avoid boiling and superheating; use modest time intervals.
+• Stir carefully before measuring temperature.
+• Keep electronics dry and outside the microwave.
+• Instructor controls microwave use and hot-water handling for younger learners.
+Extension: Can We Live on Sunlight?
+The unit ends exactly where the larger inquiry begins. Once a learner can move confidently among joules,
+watts, watt-hours, and W/m², the questions of solar area, conversion efficiency, storage, pumping, transport,
+household energy, and infrastructure become quantitatively approachable.
+Students do not merely consume STEM. They produce measurements, models,
+predictions, residuals, and decisions.
+<PARSED TEXT FOR PAGE: 17 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 17
+15. Glossary, Formula Sheet, and Source
+Basis
+Term Operational meaning in this unit
+Energy Amount transferred or stored; joules (J).
+Power Energy transfer rate; watts (W = J/s).
+Energy flux / irradiance Power per area; W/m².
+Heat flux Thermal energy-transfer rate per area; W/m².
+Residual Measured value minus model prediction, or unaccounted quantity in a balance.
+Boundary condition Specified environmental/interface condition that helps define the experiment.
+Efficiency Useful output divided by input, with the numerator and denominator clearly defined.
+Time constant Characteristic response time of a first-order system.
+Open system A system through whose boundary matter and/or energy can flow.
+Formula sheet
+Q = mcΔT | P = E/t | E = Pt | J = P/A | dT/dt =
+-k(T-Tₐ) | d(stored)/dt = in - out + generation - consumption
+Source basis
+• Core Twelve Master Reference, Version 1.0 (August 2026) - canonical placement of #8 Smart Pop-Can
+Calorimetry; four sequencing laws; Fidelity Mirrors; open-systems capstone.
+• CORE12 Fidelity Mirror Master Guide (August 2026) - Newton cooling, predictive mixing/calorimetry,
+analog/digital mirror architecture, synchronized residual discipline.
+• CORE12 Scientific Validation Loop White Paper (20 August 2026) - MEASURE → MODEL → PREDICT → COMPARE
+→ RESIDUAL → REVISE; uncertainty, replication, parameter estimation, and residuals.
+This PRO unit is an instructional synthesis and extension of those references. The microwave/flux sequence is added inside Unit 8
+rather than as a thirteenth CORE12 activity.
+<PARSED TEXT FOR PAGE: 18 / 18>
+CORE12 PRO UNIT 8 | IT’S ALL ABOUT THE FLUX Energy • Power • Flux • Accounting • Open Systems
+Experience Before Equation • Need Before Technology • Compare the Mirrors Page 18
