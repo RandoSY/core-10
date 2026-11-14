@@ -57,6 +57,14 @@
       "expected_sha256": "dada94071140bf8386f177efe6077e89dea9403ae33596b6985cceaa6797210c",
       "expected_pdf_pages": 15,
       "provenance": "Original November 2026 committee-review PDF by Randall Young."
+    },
+    {
+      "path": "model eliciting activities/Uniformity_Through_Inquiry_Research_Proposal_v1_1.pdf",
+      "expected_git_blob_sha1": "eaf2643a928efd5fb2b39c3aa19709ca01643569",
+      "expected_size_bytes": 152579,
+      "expected_sha256": "dc04268076eb2eed4d3a822413476d1544a2551833c39b4dd234275175f6958f",
+      "expected_pdf_pages": 17,
+      "provenance": "Version 1.1 adds Appendix C on Wadell and a reading-map entry. The original 15-page edition is preserved unchanged."
     }
   ]
 }

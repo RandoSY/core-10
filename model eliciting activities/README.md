@@ -65,7 +65,9 @@ The region fixture includes two rocks with the same 10% mean missing volume. A01
 
 ## Background and materials
 
-- [Committee research proposal](Uniformity_Through_Inquiry_Research_Proposal.pdf) (original 15-page edition). This bench kit extends it with three rock collections, direct cylinder readings, density, and a Python/AI handoff.
+- [Executive summary](EXECUTIVE_SUMMARY.md) — what the activity, equipment, software, and research proposal accomplish.
+- [Committee research proposal, edition 1.1](Uniformity_Through_Inquiry_Research_Proposal_v1_1.pdf) — now includes Appendix C. The [original 15-page edition](Uniformity_Through_Inquiry_Research_Proposal.pdf) is retained unchanged.
+- [Appendix C: Hakon Wadell and the measurement of rock shape](APPENDIX_C_WADELL.md) — historical context, the portrait source, and the distinction between roundness, sphericity, and the classroom proxy.
 - [Three prototype specimens](illustrations/three-rocks.jpg)
 - [Three populations](illustrations/rock-populations.jpg)
 - [Dimensional tools](illustrations/dimensional-tools.jpg)
