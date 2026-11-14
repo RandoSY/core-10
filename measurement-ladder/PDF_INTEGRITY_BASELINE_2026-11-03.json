@@ -49,6 +49,14 @@
       "path": "one-cup-chemistry/original-editions/One_Cup_Chemistry_Teacher_Manual_v0_2_BRANDED.pdf",
       "expected_git_blob_sha1": "877331f68252ef0cdb3cf0dfde2155b896cb1800",
       "expected_size_bytes": 1678510
+    },
+    {
+      "path": "model eliciting activities/Uniformity_Through_Inquiry_Research_Proposal.pdf",
+      "expected_git_blob_sha1": "47ef1fe48d108ae40196327c06923d720e185915",
+      "expected_size_bytes": 124083,
+      "expected_sha256": "dada94071140bf8386f177efe6077e89dea9403ae33596b6985cceaa6797210c",
+      "expected_pdf_pages": 15,
+      "provenance": "Original November 2026 committee-review PDF by Randall Young."
     }
   ]
 }

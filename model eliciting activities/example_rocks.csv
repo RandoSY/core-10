@@ -1,0 +1,12 @@
+pile,rock_id,repeat,length_mm,width_mm,thickness_mm,girth_mm,dry_mass_g,initial_ml,submerged_ml,volume_method,shape_volume_cm3,area_cm2,shape_boundary,notes
+A,A01,1,92,61,39,212,300,600,712,direct,,,,Synthetic dimensions
+A,A01,2,91,61,39,213,300,600,711,direct,,,,Synthetic repeat
+A,A02,1,87,60,42,201,286,600,708,direct,,,,Synthetic
+A,A03,1,97,58,40,215,313,600,717,direct,,,,Synthetic
+B,B01,1,26,19,15,67,9.8,20,23.7,direct,,,,Synthetic narrow cylinder
+B,B02,1,31,24,17,79,15.9,20,25.8,direct,,,,Synthetic narrow cylinder
+B,B03,1,24,18,13,62,7.6,20,22.8,direct,,,,Synthetic narrow cylinder
+C,C01,1,101,77,50,281,261,650,763,water-accessible,,,,Synthetic filled passages
+C,C02,1,110,64,52,265,241,650,754,water-accessible,,,,Synthetic filled passages
+C,C03,1,85,63,43,230,225,650,742,water-accessible,,,,Synthetic filled passages
+CAL,sphere,1,20,20,20,,,,,,4.1887902047863905,12.566370614359172,ideal sphere,Synthetic geometry control

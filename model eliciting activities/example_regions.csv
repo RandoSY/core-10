@@ -1,0 +1,9 @@
+pile,rock_id,scheme,region,hull_cm3,occupied_cm3
+A,A01,long-axis-four-equal-hull,1,10,9
+A,A01,long-axis-four-equal-hull,2,10,9
+A,A01,long-axis-four-equal-hull,3,10,9
+A,A01,long-axis-four-equal-hull,4,10,9
+C,C01,long-axis-four-equal-hull,1,10,10
+C,C01,long-axis-four-equal-hull,2,10,10
+C,C01,long-axis-four-equal-hull,3,10,10
+C,C01,long-axis-four-equal-hull,4,10,6
