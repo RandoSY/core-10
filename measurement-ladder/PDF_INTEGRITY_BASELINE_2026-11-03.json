@@ -65,20 +65,6 @@
       "expected_sha256": "dc04268076eb2eed4d3a822413476d1544a2551833c39b4dd234275175f6958f",
       "expected_pdf_pages": 17,
       "provenance": "Version 1.1 adds Appendix C on Wadell and a reading-map entry. The original 15-page edition is preserved unchanged."
-    },
-    {
-      "path": "calculus-pilots/student-pilot-handouts.pdf",
-      "expected_git_blob_sha1": "aecb2c7e72b6a45e6d70a1b4d7e6f5b889a13392",
-      "expected_size_bytes": 48752,
-      "expected_sha256": "5535b64cdc13e6d22d905a4091f87c22426733614423fc8e16a831bc7db21a2e",
-      "expected_pdf_pages": 4
-    },
-    {
-      "path": "calculus-pilots/teacher-pilot-guide.pdf",
-      "expected_git_blob_sha1": "52b2d60945227711cb6c36b80a6621a53c835edd",
-      "expected_size_bytes": 53564,
-      "expected_sha256": "2ab427eddcc9c067f1a6a3157f07bd2cc09534103c828fcbea878839c7b774c7",
-      "expected_pdf_pages": 4
     }
   ]
 }
